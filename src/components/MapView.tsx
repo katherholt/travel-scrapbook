@@ -69,7 +69,6 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
               onClick={() => {
                 if (!trip.locked) onTripClick(trip);
               }}
-              style={{ cursor: trip.locked ? "default" : "pointer" }}
             >
               <circle
                 r={markerSize(trip)}
@@ -77,6 +76,7 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                 stroke="#F6F2EA"
                 strokeWidth={2}
                 opacity={trip.locked ? 0.5 : 1}
+                style={{ cursor: trip.locked ? "default" : "pointer" }}
               />
               {trip.locked && (
                 <circle

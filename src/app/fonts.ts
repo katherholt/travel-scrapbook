@@ -1,19 +1,11 @@
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
+// Font configuration
+// Swap to Sentient later by replacing the serif font-family in globals.css
+// Using system font stacks with CSS variable hooks for easy swapping
 
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
+// We define CSS variable names here so layout.tsx can apply them.
+// Actual font loading happens via @font-face in globals.css (no build-time Google Fonts fetch).
 
-// Serif heading font — swap to Sentient later by replacing this file
-// Using Libre Baskerville as placeholder
-import { Libre_Baskerville } from "next/font/google";
+export const fontVariables = "--font-sans --font-serif";
 
-export const serifFont = Libre_Baskerville({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-serif",
-  display: "swap",
-});
+// Lightweight class strings for the <html> tag
+export const fontClassNames = "";

@@ -1,6 +1,6 @@
 /* Google Fonts — loaded client-side, no build-time fetch.
    Swap to Sentient by replacing the Libre Baskerville URL + --font-serif value. */
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Special+Elite&display=swap");
 
 @import "tailwindcss";
 
@@ -29,6 +29,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: "Libre Baskerville", ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: "DM Mono", ui-monospace, "Courier New", monospace;
+  --font-special-elite: "Special Elite", cursive;
 }
 
 /* Base styles */

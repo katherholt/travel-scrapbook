@@ -47,12 +47,12 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill="#E8E1D6"
-                  stroke="#F6F2EA"
+                  fill="#ebe5d8"
+                  stroke="#f5f0e8"
                   strokeWidth={0.5}
                   style={{
                     default: { outline: "none" },
-                    hover: { fill: "#D6CFC3", outline: "none" },
+                    hover: { fill: "#ddd6c8", outline: "none" },
                     pressed: { outline: "none" },
                   }}
                 />
@@ -73,7 +73,7 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
               <circle
                 r={markerSize(trip)}
                 fill={markerColor(trip)}
-                stroke="#F6F2EA"
+                stroke="#f5f0e8"
                 strokeWidth={2}
                 opacity={trip.locked ? 0.5 : 1}
                 style={{ cursor: trip.locked ? "default" : "pointer" }}
@@ -129,7 +129,7 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                     </svg>
                   )}
                   {!trip.locked && (
-                    <span className="text-[10px] uppercase tracking-wider text-gris">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-gris">
                       Click to open
                     </span>
                   )}

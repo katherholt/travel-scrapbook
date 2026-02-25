@@ -32,7 +32,7 @@ export default function CoverPage({ trip }: { trip: Trip }) {
       {/* Content */}
       <div className="relative z-10 p-8">
         <p
-          className="mb-2 text-xs font-semibold uppercase tracking-[0.2em]"
+          className="mb-2 font-mono text-xs font-medium uppercase tracking-[0.2em]"
           style={{ color: "rgba(255,255,255,0.7)" }}
         >
           Field Notes

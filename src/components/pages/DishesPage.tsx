@@ -29,29 +29,35 @@ export default function DishesPage({
   };
 
   return (
-    <ItemSlideshow
-      items={items}
-      signatureColor={trip.signatureColor}
-      heading={heading}
-      headerExtra={
-        <span className="text-xs text-gris">{tried.size}/3 tried</span>
-      }
-      renderFooter={(currentIndex) => (
-        <button
-          onClick={() => toggleDish(currentIndex)}
-          className="mt-4 flex items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all"
-          style={{
-            borderColor: tried.has(currentIndex)
-              ? trip.signatureColor
-              : "#E8E1D6",
-            backgroundColor: tried.has(currentIndex)
-              ? trip.signatureColor + "20"
-              : "transparent",
-            color: tried.has(currentIndex) ? trip.signatureColor : "#BBB8B5",
-          }}
-        >
-          {tried.has(currentIndex) ? (
-            <>
+    <div className="p-6 sm:p-8">
+      <div
+        className="mb-4 h-1 w-8 rounded-full"
+        style={{ backgroundColor: trip.signatureColor }}
+      />
+
+      {/* Interactive checklist header */}
+      <div className="mb-4 flex items-center gap-3">
+        <h2 className="font-serif text-xl font-bold">3 Places to Eat</h2>
+        <span className="text-xs text-gris">
+          {tried.size}/3 tried
+        </span>
+      </div>
+
+      {/* Dish checkboxes */}
+      <div className="mb-4 flex gap-2">
+        {[0, 1, 2].map((i) => (
+          <button
+            key={i}
+            onClick={() => toggleDish(i)}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border-2 transition-all"
+            style={{
+              borderColor: tried.has(i) ? trip.signatureColor : "#ebe5d8",
+              backgroundColor: tried.has(i)
+                ? trip.signatureColor + "20"
+                : "transparent",
+            }}
+          >
+            {tried.has(i) && (
               <svg
                 width="14"
                 height="14"

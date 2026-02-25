@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Markdown from "markdown-to-jsx";
+import { useState, useMemo } from "react";
 import { Trip } from "@/lib/types";
+import ItemSlideshow, {
+  parseItemsFromMarkdown,
+} from "@/components/ItemSlideshow";
 
 export default function DishesPage({
   content,
@@ -12,6 +14,10 @@ export default function DishesPage({
   trip: Trip;
 }) {
   const [tried, setTried] = useState<Set<number>>(new Set());
+  const { heading, items } = useMemo(
+    () => parseItemsFromMarkdown(content),
+    [content]
+  );
 
   const toggleDish = (index: number) => {
     setTried((prev) => {
@@ -23,35 +29,29 @@ export default function DishesPage({
   };
 
   return (
-    <div className="p-6 sm:p-8">
-      <div
-        className="mb-4 h-1 w-8 rounded-full"
-        style={{ backgroundColor: trip.signatureColor }}
-      />
-
-      {/* Interactive checklist header */}
-      <div className="mb-4 flex items-center gap-3">
-        <h2 className="font-serif text-xl font-bold">3 Places to Eat</h2>
-        <span className="text-xs text-gris">
-          {tried.size}/3 tried
-        </span>
-      </div>
-
-      {/* Dish checkboxes */}
-      <div className="mb-4 flex gap-2">
-        {[0, 1, 2].map((i) => (
-          <button
-            key={i}
-            onClick={() => toggleDish(i)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border-2 transition-all"
-            style={{
-              borderColor: tried.has(i) ? trip.signatureColor : "#E8E1D6",
-              backgroundColor: tried.has(i)
-                ? trip.signatureColor + "20"
-                : "transparent",
-            }}
-          >
-            {tried.has(i) && (
+    <ItemSlideshow
+      items={items}
+      signatureColor={trip.signatureColor}
+      heading={heading}
+      headerExtra={
+        <span className="text-xs text-gris">{tried.size}/3 tried</span>
+      }
+      renderFooter={(currentIndex) => (
+        <button
+          onClick={() => toggleDish(currentIndex)}
+          className="mt-4 flex items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm font-medium transition-all"
+          style={{
+            borderColor: tried.has(currentIndex)
+              ? trip.signatureColor
+              : "#E8E1D6",
+            backgroundColor: tried.has(currentIndex)
+              ? trip.signatureColor + "20"
+              : "transparent",
+            color: tried.has(currentIndex) ? trip.signatureColor : "#BBB8B5",
+          }}
+        >
+          {tried.has(currentIndex) ? (
+            <>
               <svg
                 width="14"
                 height="14"
@@ -64,14 +64,13 @@ export default function DishesPage({
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-            )}
-          </button>
-        ))}
-      </div>
-
-      <div className="booklet-content">
-        <Markdown>{content}</Markdown>
-      </div>
-    </div>
+              Tried!
+            </>
+          ) : (
+            "Mark as tried"
+          )}
+        </button>
+      )}
+    />
   );
 }

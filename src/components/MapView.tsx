@@ -18,9 +18,15 @@ interface MapViewProps {
   onTripClick: (trip: Trip) => void;
 }
 
-function markerColor(trip: Trip): string {
-  if (trip.locked) return "#BBB8B5";
-  return trip.signatureColor;
+function markerColor(status: Trip["status"]): string {
+  switch (status) {
+    case "past":
+      return "#d4763a";
+    case "upcoming":
+      return "#2a7d5f";
+    case "future":
+      return "#b8a88a";
+  }
 }
 
 function markerSize(trip: Trip): number {
@@ -28,11 +34,55 @@ function markerSize(trip: Trip): number {
   return 8;
 }
 
+function MapLegend() {
+  const items = [
+    { color: "#d4763a", label: "Past" },
+    { color: "#2a7d5f", label: "Upcoming" },
+    { color: "#b8a88a", label: "Future" },
+  ];
+
+  return (
+    <div
+      className="absolute bottom-4 right-4 flex flex-col gap-1.5 rounded-lg px-3 py-2"
+      style={{
+        backgroundColor: "rgba(237,231,217,0.9)",
+        border: "1px solid rgba(150,130,100,0.3)",
+        backdropFilter: "blur(4px)",
+      }}
+    >
+      {items.map(({ color, label }) => (
+        <div key={label} className="flex items-center gap-2">
+          <div
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: color }}
+          />
+          <span
+            className="text-[10px] uppercase"
+            style={{
+              fontFamily: "var(--font-special-elite)",
+              letterSpacing: "1.5px",
+              color: "rgba(80,60,40,0.6)",
+            }}
+          >
+            {label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function MapView({ trips, onTripClick }: MapViewProps) {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-sable bg-white/50 shadow-md">
+    <div
+      className="relative overflow-hidden rounded-2xl shadow-md"
+      style={{
+        backgroundColor: "#ede7d9",
+        border: "1px solid rgba(150,130,100,0.3)",
+      }}
+    >
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{ scale: 120, center: [20, 30] }}
@@ -47,12 +97,12 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill="#ebe5d8"
-                  stroke="#f5f0e8"
+                  fill="rgba(180,165,135,0.4)"
+                  stroke="rgba(150,130,100,0.3)"
                   strokeWidth={0.5}
                   style={{
                     default: { outline: "none" },
-                    hover: { fill: "#ddd6c8", outline: "none" },
+                    hover: { fill: "rgba(180,165,135,0.55)", outline: "none" },
                     pressed: { outline: "none" },
                   }}
                 />
@@ -72,8 +122,8 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
             >
               <circle
                 r={markerSize(trip)}
-                fill={markerColor(trip)}
-                stroke="#f5f0e8"
+                fill={markerColor(trip.status)}
+                stroke="#ede7d9"
                 strokeWidth={2}
                 opacity={trip.locked ? 0.5 : 1}
                 style={{ cursor: trip.locked ? "default" : "pointer" }}
@@ -82,7 +132,7 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                 <circle
                   r={markerSize(trip)}
                   fill="none"
-                  stroke={markerColor(trip)}
+                  stroke={markerColor(trip.status)}
                   strokeWidth={1}
                   strokeDasharray="2,2"
                   opacity={0.6}
@@ -93,6 +143,9 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
         </ZoomableGroup>
       </ComposableMap>
 
+      {/* Legend */}
+      <MapLegend />
+
       {/* Tooltip */}
       <AnimatePresence>
         {hoveredSlug && (
@@ -100,7 +153,11 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-lg border border-sable bg-creme px-4 py-2 shadow-lg"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-lg px-4 py-2 shadow-lg"
+            style={{
+              backgroundColor: "#ede7d9",
+              border: "1px solid rgba(150,130,100,0.3)",
+            }}
           >
             {(() => {
               const trip = trips.find((t) => t.slug === hoveredSlug);
@@ -109,9 +166,12 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                 <div className="flex items-center gap-2">
                   <div
                     className="h-2.5 w-2.5 rounded-full"
-                    style={{ backgroundColor: trip.signatureColor }}
+                    style={{ backgroundColor: markerColor(trip.status) }}
                   />
-                  <span className="font-serif text-sm font-bold">
+                  <span
+                    className="text-sm font-bold"
+                    style={{ fontFamily: "var(--font-special-elite)" }}
+                  >
                     {trip.title}
                   </span>
                   {trip.locked && (
@@ -129,7 +189,14 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                     </svg>
                   )}
                   {!trip.locked && (
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-gris">
+                    <span
+                      className="text-[10px] uppercase"
+                      style={{
+                        fontFamily: "var(--font-special-elite)",
+                        letterSpacing: "1px",
+                        color: "rgba(80,60,40,0.5)",
+                      }}
+                    >
                       Click to open
                     </span>
                   )}

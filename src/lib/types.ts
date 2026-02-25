@@ -8,6 +8,7 @@ export interface Trip {
   status: TripStatus;
   signatureColor: string;
   coverImage: string;
+  postcardImage: string;
   tintStrength: number;
   coordinates: { lat: number; lng: number };
   contentPath: string;

@@ -65,9 +65,9 @@ export default function CoverCard({ trip, onClick, index }: CoverCardProps) {
       {/* Meta label top-left */}
       <div className="absolute left-4 top-4 z-20">
         <span
-          className="inline-block rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider"
+          className="inline-block rounded-full px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider"
           style={{
-            backgroundColor: "rgba(246, 242, 234, 0.85)",
+            backgroundColor: "rgba(245, 240, 232, 0.85)",
             color: trip.signatureColor,
           }}
         >

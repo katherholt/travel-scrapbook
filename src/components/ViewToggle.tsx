@@ -11,7 +11,7 @@ export default function ViewToggle({ view, onToggle }: ViewToggleProps) {
   return (
     <div className="hidden lg:flex items-center gap-1 rounded-full border border-sable bg-white/50 p-1">
       <button
-        className="relative rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors"
+        className="relative rounded-full px-4 py-1.5 font-mono text-xs font-medium uppercase tracking-wider transition-colors"
         onClick={() => onToggle("grid")}
       >
         {view === "grid" && (
@@ -26,7 +26,7 @@ export default function ViewToggle({ view, onToggle }: ViewToggleProps) {
         </span>
       </button>
       <button
-        className="relative rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors"
+        className="relative rounded-full px-4 py-1.5 font-mono text-xs font-medium uppercase tracking-wider transition-colors"
         onClick={() => onToggle("map")}
       >
         {view === "map" && (

@@ -11,79 +11,53 @@ country: "Mexico"
 
 ## La Ciudad de los Palacios
 
-Mexico City is a sprawling metropolis built on the ruins of Tenochtitlan, the ancient Aztec capital. With over 21 million people in the metro area, it's one of the largest cities in the Western Hemisphere — a dizzying mix of pre-Columbian history, colonial architecture, and contemporary culture.
-
-> "Mexico City is not a city you visit. It's a city that happens to you."
+Mexico City feels indulgent in the most layered way — sensory, romantic, and endlessly alive. There is a softness beneath the scale of the city, especially in neighborhoods like Condesa where tree-lined streets, long meals, and quiet cafes slow everything down. The experience is lush rather than chaotic, rewarding curiosity with beautiful food, cultural depth, and moments that feel unexpectedly intimate.
 
 **What makes it special:** The layers. Every neighborhood is its own world. The food alone could take a lifetime to explore.
 
 ---
 
-<!-- PAGE: local-map -->
-## Local Map
+<!-- PAGE: dishes -->
+## 3 Places to Eat
 
-### Key Neighborhoods
+### 1. Lotti
 
-- **Centro Histórico** — Zócalo, Templo Mayor, Palacio de Bellas Artes
-- **Roma** — Tree-lined streets, art deco buildings, cafés everywhere
-- **Condesa** — Parks, restaurants, a bohemian vibe
-- **Coyoacán** — Frida Kahlo's neighborhood, colorful markets
-- **Polanco** — Upscale dining, Museo Soumaya, Chapultepec Park
-- **Xochimilco** — Floating gardens and colorful trajineras
+A warm, design-forward restaurant that feels effortlessly romantic, with refined dishes and an atmosphere that encourages lingering conversation.
 
----
+### 2. Gaba
 
-<!-- PAGE: itinerary -->
-## Itinerary
+A creative, modern dining experience where inventive flavors and presentation make the meal feel special without being overly formal.
 
-*Details coming soon — this trip is still being planned!*
+### 3. Taqueria Orinoco
 
-### Day 1 — Arrival & Centro Histórico
-- TBD
-
-### Day 2 — Roma & Condesa
-- TBD
-
-### Day 3 — Coyoacán & Xochimilco
-- TBD
-
-### Day 4 — Museums & Polanco
-- TBD
-
-### Day 5 — Departure
-- TBD
+A lively taqueria known for rich, satisfying tacos and an energetic late-night feeling that captures the city's casual food culture.
 
 ---
 
 <!-- PAGE: local-lore -->
-## Local Lore
+## 3 Things to See
 
-*Content coming soon as we research more about the city's stories and secrets.*
+### 1. Museo Nacional de Antropologia
 
----
+A grounding and visually powerful museum experience where history, architecture, and scale combine into a moment that feels both humbling and deeply memorable.
 
-<!-- PAGE: crossword -->
-## Mini Crossword
+### 2. Condesa
 
-*Coming soon — a Mexico City-themed puzzle!*
+A leafy, walkable neighborhood ideal for wandering without an agenda — cafes, parks, and architecture create a rhythm that feels romantic and relaxed.
 
----
+### 3. Parque Mexico
 
-<!-- PAGE: dishes -->
-## 3 Dishes to Try
-
-### 1. Tacos al Pastor
-*Details coming soon*
-
-### 2. Mole
-*Details coming soon*
-
-### 3. Churros con Chocolate
-*Details coming soon*
+An Art Deco park that embodies the softness of Condesa, perfect for slow strolls, people watching, and resetting between meals.
 
 ---
 
-<!-- PAGE: teaser -->
-## Next Getaway
+<!-- PAGE: phrases -->
+## Spanish Phrases
 
-*Where will the next adventure take us? Check back soon...*
+### Essentials
+
+- **"Cuanto cuesta?"** — How much does it cost?
+- **"Con permiso"** — Excuse me / passing through
+- **"Esta delicioso"** — It's delicious
+- **"Una mesa para dos, por favor"** — A table for two, please
+- **"Gracias, que tenga buen dia"** — Thank you, have a nice day

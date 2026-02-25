@@ -45,7 +45,7 @@ export default function DishesPage({
             onClick={() => toggleDish(i)}
             className="flex h-8 w-8 items-center justify-center rounded-lg border-2 transition-all"
             style={{
-              borderColor: tried.has(i) ? trip.signatureColor : "#E8E1D6",
+              borderColor: tried.has(i) ? trip.signatureColor : "#ebe5d8",
               backgroundColor: tried.has(i)
                 ? trip.signatureColor + "20"
                 : "transparent",

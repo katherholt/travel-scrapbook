@@ -12,6 +12,7 @@ import LocalLorePage from "./pages/LocalLorePage";
 import CrosswordPage from "./pages/CrosswordPage";
 import DishesPage from "./pages/DishesPage";
 import TeaserPage from "./pages/TeaserPage";
+import PhrasesPage from "./pages/PhrasesPage";
 
 interface BookletCarouselProps {
   trip: Trip;
@@ -104,6 +105,8 @@ export default function BookletCarousel({
         return <DishesPage content={md} trip={trip} />;
       case "teaser":
         return <TeaserPage content={md} trip={trip} />;
+      case "phrases":
+        return <PhrasesPage content={md} trip={trip} />;
       default:
         return <div className="p-8">Page not found</div>;
     }

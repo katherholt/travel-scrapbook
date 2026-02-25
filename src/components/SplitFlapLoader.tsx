@@ -29,7 +29,7 @@ interface FlapProps {
 function Flap({ char, isFlipping, accentColor }: FlapProps) {
   const isEmpty = char === " ";
   return (
-    <div style={{ flex: "1 1 0px", minWidth: 0, aspectRatio: "38/52", maxWidth: 38, perspective: "200px" }}>
+    <div style={{ width: 38, height: 52, perspective: "200px" }}>
       <div
         style={{
           width: "100%",
@@ -41,7 +41,7 @@ function Flap({ char, isFlipping, accentColor }: FlapProps) {
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "var(--font-mono, 'DM Mono', 'Courier New', monospace)",
-          fontSize: "clamp(12px, 3.2vw, 22px)",
+          fontSize: 22,
           fontWeight: 500,
           letterSpacing: "0.02em",
           position: "relative",
@@ -155,7 +155,7 @@ interface FlapRowProps {
 function FlapRow({ text, rowIndex, accentColor }: FlapRowProps) {
   const chars = padCenter(text, DISPLAY_COLS).split("");
   return (
-    <div style={{ display: "flex", gap: "clamp(1px, 0.5vw, 3px)", width: "100%" }}>
+    <div style={{ display: "flex", gap: 3 }}>
       {chars.map((char, i) => (
         <FlapCell
           key={`${rowIndex}-${i}`}
@@ -217,7 +217,7 @@ export default function SplitFlapLoader({
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
-            gap: "clamp(16px, 4vw, 28px)",
+            gap: 28,
             background: "#f5f0e8",
             fontFamily:
               "var(--font-mono, 'DM Mono', 'Courier New', monospace)",
@@ -248,9 +248,7 @@ export default function SplitFlapLoader({
               background: "#ebe5d8",
               border: "1px solid rgba(0,0,0,0.07)",
               borderRadius: 10,
-              padding: "clamp(14px, 3.2vw, 24px) clamp(16px, 3.8vw, 28px) clamp(12px, 2.4vw, 18px)",
-              maxWidth: "90vw",
-              overflow: "hidden",
+              padding: "24px 28px 18px",
               display: "flex",
               flexDirection: "column",
               gap: 4,
@@ -265,7 +263,7 @@ export default function SplitFlapLoader({
               style={{
                 position: "absolute",
                 top: -9,
-                left: "clamp(16px, 3.8vw, 28px)",
+                left: 28,
                 background: "#ebe5d8",
                 padding: "0 10px",
                 fontSize: 9,
@@ -280,7 +278,7 @@ export default function SplitFlapLoader({
               style={{
                 position: "absolute",
                 top: -9,
-                right: "clamp(16px, 3.8vw, 28px)",
+                right: 28,
                 background: "#ebe5d8",
                 padding: "0 10px",
                 fontSize: 9,

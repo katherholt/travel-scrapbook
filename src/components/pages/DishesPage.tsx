@@ -31,8 +31,8 @@ export default function DishesPage({
 
       {/* Interactive checklist header */}
       <div className="mb-4 flex items-center gap-3">
-        <h2 className="font-serif text-xl font-bold">3 Dishes to Try</h2>
-        <span className="font-mono text-xs text-gris">
+        <h2 className="font-serif text-xl font-bold">3 Places to Eat</h2>
+        <span className="text-xs text-gris">
           {tried.size}/3 tried
         </span>
       </div>

@@ -203,7 +203,7 @@ export default function SplitFlapLoader({
   if (phase === "done") return null;
   return (
     <AnimatePresence onExitComplete={handleExitComplete}>
-      {phase === "running" ? (
+      {phase === "running" && (
         <motion.div
           key="loader"
           initial={{ y: 0 }}
@@ -332,24 +332,6 @@ export default function SplitFlapLoader({
             A collection of past, present & future trips
           </motion.p>
         </motion.div>
-      ) : (
-        // Exiting phase — keep mounted briefly for exit animation
-        <motion.div
-          key="loader"
-          exit={{ y: "100%" }}
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 9999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            gap: 28,
-            background: "#f5f0e8",
-          }}
-        />
       )}
     </AnimatePresence>
   );

@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Markdown from "markdown-to-jsx";
+import { useState, useMemo } from "react";
 import { Trip } from "@/lib/types";
+import ItemSlideshow, {
+  parseItemsFromMarkdown,
+} from "@/components/ItemSlideshow";
 
 export default function DishesPage({
   content,
@@ -12,6 +14,10 @@ export default function DishesPage({
   trip: Trip;
 }) {
   const [tried, setTried] = useState<Set<number>>(new Set());
+  const { heading, items } = useMemo(
+    () => parseItemsFromMarkdown(content),
+    [content]
+  );
 
   const toggleDish = (index: number) => {
     setTried((prev) => {
@@ -64,14 +70,13 @@ export default function DishesPage({
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-            )}
-          </button>
-        ))}
-      </div>
-
-      <div className="booklet-content">
-        <Markdown>{content}</Markdown>
-      </div>
-    </div>
+              Tried!
+            </>
+          ) : (
+            "Mark as tried"
+          )}
+        </button>
+      )}
+    />
   );
 }

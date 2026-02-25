@@ -1,7 +1,10 @@
 "use client";
 
-import Markdown from "markdown-to-jsx";
+import { useMemo } from "react";
 import { Trip } from "@/lib/types";
+import ItemSlideshow, {
+  parseItemsFromMarkdown,
+} from "@/components/ItemSlideshow";
 
 export default function LocalLorePage({
   content,
@@ -10,15 +13,16 @@ export default function LocalLorePage({
   content: string;
   trip: Trip;
 }) {
+  const { heading, items } = useMemo(
+    () => parseItemsFromMarkdown(content),
+    [content]
+  );
+
   return (
-    <div className="p-6 sm:p-8">
-      <div
-        className="mb-4 h-1 w-8 rounded-full"
-        style={{ backgroundColor: trip.signatureColor }}
-      />
-      <div className="booklet-content">
-        <Markdown>{content}</Markdown>
-      </div>
-    </div>
+    <ItemSlideshow
+      items={items}
+      signatureColor={trip.signatureColor}
+      heading={heading}
+    />
   );
 }

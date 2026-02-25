@@ -22,13 +22,19 @@ Mexico City feels indulgent in the most layered way — sensory, romantic, and e
 
 ### 1. Lotti
 
+![Lotti](https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop)
+
 A warm, design-forward restaurant that feels effortlessly romantic, with refined dishes and an atmosphere that encourages lingering conversation.
 
 ### 2. Gaba
 
+![Gaba](https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop)
+
 A creative, modern dining experience where inventive flavors and presentation make the meal feel special without being overly formal.
 
 ### 3. Taqueria Orinoco
+
+![Taqueria Orinoco](https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=500&fit=crop)
 
 A lively taqueria known for rich, satisfying tacos and an energetic late-night feeling that captures the city's casual food culture.
 
@@ -39,13 +45,19 @@ A lively taqueria known for rich, satisfying tacos and an energetic late-night f
 
 ### 1. Museo Nacional de Antropologia
 
+![Museo Nacional de Antropologia](https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800&h=500&fit=crop)
+
 A grounding and visually powerful museum experience where history, architecture, and scale combine into a moment that feels both humbling and deeply memorable.
 
 ### 2. Condesa
 
+![Condesa](https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=800&h=500&fit=crop)
+
 A leafy, walkable neighborhood ideal for wandering without an agenda — cafes, parks, and architecture create a rhythm that feels romantic and relaxed.
 
 ### 3. Parque Mexico
+
+![Parque Mexico](https://images.unsplash.com/photo-1568226940647-163e4fbd1969?w=800&h=500&fit=crop)
 
 An Art Deco park that embodies the softness of Condesa, perfect for slow strolls, people watching, and resetting between meals.
 

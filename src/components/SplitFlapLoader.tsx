@@ -217,7 +217,6 @@ export default function SplitFlapLoader({
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
-            gap: 28,
             background: "#f5f0e8",
             fontFamily:
               "var(--font-mono, 'DM Mono', 'Courier New', monospace)",
@@ -235,6 +234,8 @@ export default function SplitFlapLoader({
               backgroundSize: "128px",
             }}
           />
+          {/* Scaled wrapper — keeps design intact, shrinks on mobile */}
+          <div className="loader-board-wrapper" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
           {/* Board */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
@@ -331,6 +332,7 @@ export default function SplitFlapLoader({
           >
             A collection of past, present & future trips
           </motion.p>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

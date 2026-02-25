@@ -122,3 +122,23 @@ h1, h2, h3 {
   font-style: italic;
   color: #555;
 }
+
+/* Scale the split-flap loader board to fit narrow screens */
+.loader-board-wrapper {
+  transform-origin: center center;
+}
+@media (max-width: 660px) {
+  .loader-board-wrapper {
+    transform: scale(0.82);
+  }
+}
+@media (max-width: 520px) {
+  .loader-board-wrapper {
+    transform: scale(0.62);
+  }
+}
+@media (max-width: 400px) {
+  .loader-board-wrapper {
+    transform: scale(0.52);
+  }
+}

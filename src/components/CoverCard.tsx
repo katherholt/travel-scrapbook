@@ -277,3 +277,4 @@ export default function CoverCard({ trip, index, content }: CoverCardProps) {
     </motion.div>
   );
 }
+

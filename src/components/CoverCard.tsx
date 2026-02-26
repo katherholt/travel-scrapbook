@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Trip } from "@/lib/types";
 import LockOverlay from "./ui/LockOverlay";
 
@@ -66,10 +67,12 @@ export default function CoverCard({ trip, onClick, index }: CoverCardProps) {
       }}
     >
       {/* Postcard image */}
-      <img
+      <Image
         src={trip.postcardImage}
         alt={trip.title}
-        className="h-full w-full object-cover"
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="object-cover"
         style={{
           borderRadius: "12px",
           ...filterStyle,

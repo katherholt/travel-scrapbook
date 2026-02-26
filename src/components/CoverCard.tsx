@@ -1,115 +1,279 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Trip } from "@/lib/types";
-import LockOverlay from "./ui/LockOverlay";
 
 interface CoverCardProps {
   trip: Trip;
-  onClick: () => void;
   index: number;
+  content?: string;
 }
 
-function getFilterStyle(status: Trip["status"]): React.CSSProperties {
-  switch (status) {
-    case "visited":
-      return { filter: "none", opacity: 1 };
-    case "upcoming":
-      return { filter: "saturate(0.3) sepia(0.4)", opacity: 0.8 };
-    case "future":
-      return { filter: "saturate(0) sepia(0.5) brightness(0.9)", opacity: 0.5 };
+// Deterministic slight rotations for organic scattered feel
+const ROTATIONS = [-2.5, 1.8, -1.2, 2.3, -1.8, 1.1];
+
+// ── Content parser ──────────────────────────────────────
+function parseHighlights(markdown: string) {
+  const sections = markdown.split(/<!-- PAGE: ([\w-]+) -->/);
+
+  function getSection(name: string) {
+    const idx = sections.indexOf(name);
+    return idx >= 0 ? sections[idx + 1] : "";
   }
+
+  // About: first real paragraph (skip headings, frontmatter, bold-only lines)
+  const aboutRaw = getSection("about");
+  const aboutText =
+    aboutRaw
+      .split("\n")
+      .map((l) => l.trim())
+      .find(
+        (l) =>
+          l.length > 40 &&
+          !l.startsWith("#") &&
+          !l.startsWith("---") &&
+          !l.startsWith("**"),
+      ) || "";
+
+  // Dishes: restaurant names from ### headings
+  const dishes = [...getSection("dishes").matchAll(/### \d+\.\s+(.+)/g)].map(
+    (m) => m[1],
+  );
+
+  // Sights
+  const sights = [
+    ...getSection("local-lore").matchAll(/### \d+\.\s+(.+)/g),
+  ].map((m) => m[1]);
+
+  // Phrases
+  const phrases = [
+    ...getSection("phrases").matchAll(/\*\*"(.+?)"\*\*\s*—\s*(.+)/g),
+  ]
+    .slice(0, 3)
+    .map((m) => ({ phrase: m[1], meaning: m[2] }));
+
+  return { aboutText, dishes, sights, phrases };
 }
 
-function getHoverProps(status: Trip["status"]) {
-  switch (status) {
-    case "visited":
-      return {
-        y: -4,
-        rotate: -0.5,
-        boxShadow: "4px 6px 20px rgba(80,60,40,0.25)",
-      };
-    case "upcoming":
-      return {
-        y: -2,
-        boxShadow: "3px 4px 16px rgba(80,60,40,0.2)",
-      };
-    case "future":
-      return {};
-  }
-}
+// ── Grain overlay (reusable data-uri) ───────────────────
+const GRAIN_BG =
+  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-export default function CoverCard({ trip, onClick, index }: CoverCardProps) {
-  const canOpen = !trip.locked;
-  const filterStyle = getFilterStyle(trip.status);
-  const showLabel = trip.status === "upcoming" || trip.status === "future";
-  const labelText = trip.status === "upcoming" ? "COMING SOON" : "TBD";
+// ── Component ───────────────────────────────────────────
+export default function CoverCard({ trip, index, content }: CoverCardProps) {
+  const [flipped, setFlipped] = useState(false);
+  const rotation = ROTATIONS[index % ROTATIONS.length];
+  const isVisited = trip.status === "visited";
+  const highlights = content ? parseHighlights(content) : null;
+  const canFlip = isVisited && !!highlights;
 
   return (
-    <motion.button
-      className="group relative aspect-[3/2] w-full overflow-hidden rounded-xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-noir/30"
-      onClick={() => canOpen && onClick()}
-      initial={{ opacity: 0, y: 20 }}
+    <motion.div
+      className="relative w-full"
+      style={{ perspective: 1200, aspectRatio: "3 / 2" }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.08, ease: "easeOut" }}
-      whileHover={getHoverProps(trip.status)}
-      aria-label={
-        canOpen
-          ? `Open ${trip.title} booklet`
-          : `${trip.title} — coming soon`
-      }
-      style={{
-        cursor: canOpen ? "pointer" : "default",
-        boxShadow: "2px 3px 12px rgba(80,60,40,0.15)",
-        border: "1px solid rgba(180,160,130,0.3)",
-        borderRadius: "12px",
-      }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
     >
-      {/* Postcard image */}
-      <Image
-        src={trip.postcardImage}
-        alt={trip.title}
-        fill
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="object-cover"
+      <motion.div
+        className="relative h-full w-full"
         style={{
-          borderRadius: "12px",
-          ...filterStyle,
+          transformStyle: "preserve-3d",
+          cursor: canFlip ? "pointer" : "default",
         }}
-      />
-
-      {/* Light grain overlay */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          borderRadius: "12px",
-          opacity: 0.05,
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        animate={{
+          rotateY: flipped ? 180 : 0,
+          rotate: flipped ? 0 : rotation,
         }}
-      />
-
-      {/* Status label for upcoming/future */}
-      {showLabel && (
-        <div className="absolute left-3 top-3 z-20">
-          <span
-            className="inline-block rounded-md px-2 py-0.5 text-[10px] uppercase"
+        transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+        whileHover={canFlip ? { y: -6, scale: 1.02 } : {}}
+        onClick={() => canFlip && setFlipped((f) => !f)}
+      >
+        {/* ── FRONT FACE ── */}
+        <div
+          className="absolute inset-0 overflow-hidden rounded-lg"
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            boxShadow: "3px 5px 20px rgba(80,60,40,0.22)",
+          }}
+        >
+          <Image
+            src={trip.postcardImage}
+            alt={trip.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
             style={{
-              fontFamily: "var(--font-special-elite)",
-              letterSpacing: "2px",
-              backgroundColor: "rgba(0,0,0,0.2)",
-              color: "rgba(255,255,255,0.9)",
-              backdropFilter: "blur(2px)",
+              filter: isVisited
+                ? "none"
+                : "saturate(0) contrast(0.9) brightness(0.95)",
+              opacity: isVisited ? 1 : 0.7,
+            }}
+          />
+
+          {/* Gradient + destination name */}
+          <div
+            className="absolute bottom-0 left-0 right-0 px-4 pb-3 pt-10"
+            style={{
+              background: "linear-gradient(transparent, rgba(0,0,0,0.55))",
             }}
           >
-            {labelText}
-          </span>
-        </div>
-      )}
+            <p
+              className="text-sm font-medium text-white sm:text-base"
+              style={{
+                fontFamily: "var(--font-special-elite)",
+                textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+              }}
+            >
+              {trip.title}
+            </p>
+          </div>
 
-      {/* Lock overlay for locked trips */}
-      {trip.locked && <LockOverlay title={trip.title} />}
-    </motion.button>
+          {/* Grain */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ opacity: 0.04, backgroundImage: GRAIN_BG }}
+          />
+        </div>
+
+        {/* ── BACK FACE ── */}
+        {highlights && (
+          <div
+            className="absolute inset-0 overflow-hidden rounded-lg"
+            style={{
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+              background: "#f5f0e4",
+              boxShadow: "3px 5px 20px rgba(80,60,40,0.22)",
+              fontFamily: "var(--font-special-elite)",
+            }}
+          >
+            <div className="flex h-full">
+              {/* ── Left: message ── */}
+              <div
+                className="flex flex-1 flex-col overflow-hidden p-4 pr-3 sm:p-5 sm:pr-4"
+                style={{ borderRight: "1.5px solid rgba(80,60,40,0.18)" }}
+              >
+                <p
+                  className="mb-2 text-[11px] italic sm:text-xs"
+                  style={{ color: "rgba(80,60,40,0.45)" }}
+                >
+                  Dear traveler,
+                </p>
+
+                <p
+                  className="mb-3 text-[9px] leading-relaxed sm:text-[11px]"
+                  style={{ color: "rgba(40,30,20,0.72)" }}
+                >
+                  {highlights.aboutText.length > 160
+                    ? highlights.aboutText.slice(0, 160).replace(/\s\S*$/, "") +
+                      "\u2026"
+                    : highlights.aboutText}
+                </p>
+
+                {highlights.dishes.length > 0 && (
+                  <div className="mb-2">
+                    <p
+                      className="mb-0.5 text-[7px] uppercase tracking-[0.15em] sm:text-[8px]"
+                      style={{ color: "rgba(80,60,40,0.35)" }}
+                    >
+                      Must eat
+                    </p>
+                    {highlights.dishes.map((d) => (
+                      <p
+                        key={d}
+                        className="text-[9px] sm:text-[10px]"
+                        style={{ color: "rgba(40,30,20,0.62)" }}
+                      >
+                        &middot; {d}
+                      </p>
+                    ))}
+                  </div>
+                )}
+
+                {highlights.phrases.length > 0 && (
+                  <div className="mt-auto">
+                    <p
+                      className="mb-0.5 text-[7px] uppercase tracking-[0.15em] sm:text-[8px]"
+                      style={{ color: "rgba(80,60,40,0.35)" }}
+                    >
+                      Say this
+                    </p>
+                    {highlights.phrases.slice(0, 2).map((p) => (
+                      <p
+                        key={p.phrase}
+                        className="text-[8px] sm:text-[10px]"
+                        style={{ color: "rgba(40,30,20,0.62)" }}
+                      >
+                        &ldquo;{p.phrase}&rdquo;
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* ── Right: address side ── */}
+              <div className="flex w-[38%] flex-col p-3 sm:p-4">
+                {/* Stamp */}
+                <div
+                  className="mb-4 ml-auto flex h-12 w-10 items-center justify-center rounded-sm border-2 border-dashed sm:h-14 sm:w-12"
+                  style={{ borderColor: trip.signatureColor + "50" }}
+                >
+                  <span
+                    className="text-center text-[6px] font-bold uppercase leading-tight tracking-wider sm:text-[8px]"
+                    style={{ color: trip.signatureColor }}
+                  >
+                    {trip.country}
+                  </span>
+                </div>
+
+                {/* TO: label */}
+                <p
+                  className="mb-3 text-[10px] font-bold sm:text-xs"
+                  style={{ color: "rgba(80,60,40,0.4)" }}
+                >
+                  TO:
+                </p>
+
+                {/* Address lines */}
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="mb-4 border-b"
+                    style={{ borderColor: "rgba(80,60,40,0.12)" }}
+                  />
+                ))}
+
+                {/* Postmark */}
+                <div
+                  className="ml-auto mt-auto flex h-10 w-10 items-center justify-center rounded-full border sm:h-12 sm:w-12"
+                  style={{
+                    borderColor: "rgba(80,60,40,0.15)",
+                    transform: "rotate(-12deg)",
+                  }}
+                >
+                  <span
+                    className="text-center text-[5px] uppercase leading-tight tracking-wider sm:text-[7px]"
+                    style={{ color: "rgba(80,60,40,0.22)" }}
+                  >
+                    {trip.region}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Grain on back */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{ opacity: 0.03, backgroundImage: GRAIN_BG }}
+            />
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
   );
 }

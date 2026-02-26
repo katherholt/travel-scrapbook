@@ -19,47 +19,41 @@ export default function HomeClient({ trips, tripContents }: HomeClientProps) {
   const [view, setView] = useState<"grid" | "map">("grid");
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
 
-  const handleTripClick = (trip: Trip) => {
-    if (!trip.locked) {
-      setSelectedTrip(trip);
-    }
-  };
-
-  const handleClose = () => {
-    setSelectedTrip(null);
+  const handleMapTripClick = (trip: Trip) => {
+    if (!trip.locked) setSelectedTrip(trip);
   };
 
   return (
     <>
       {loading && <SplitFlapLoader onComplete={() => setLoading(false)} />}
-    <main
-      className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16"
-      style={{ visibility: loading ? "hidden" : "visible" }}
-    >
-      <LayoutGroup>
-        <Header view={view} onToggle={setView} />
+      <main
+        className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16"
+        style={{ visibility: loading ? "hidden" : "visible" }}
+      >
+        <LayoutGroup>
+          <Header view={view} onToggle={setView} />
 
-        <AnimatePresence mode="wait">
-          {view === "grid" ? (
-            <CoverGrid
-              key="grid"
-              trips={trips}
-              onTripClick={handleTripClick}
-            />
-          ) : (
-            <div key="map" className="hidden lg:block">
-              <MapView trips={trips} onTripClick={handleTripClick} />
-            </div>
-          )}
-        </AnimatePresence>
-      </LayoutGroup>
+          <AnimatePresence mode="wait">
+            {view === "grid" ? (
+              <CoverGrid
+                key="grid"
+                trips={trips}
+                tripContents={tripContents}
+              />
+            ) : (
+              <div key="map" className="hidden lg:block">
+                <MapView trips={trips} onTripClick={handleMapTripClick} />
+              </div>
+            )}
+          </AnimatePresence>
+        </LayoutGroup>
 
-      <BookletModal
-        trip={selectedTrip}
-        content={selectedTrip ? tripContents[selectedTrip.slug] || "" : ""}
-        onClose={handleClose}
-      />
-    </main>
+        <BookletModal
+          trip={selectedTrip}
+          content={selectedTrip ? tripContents[selectedTrip.slug] || "" : ""}
+          onClose={() => setSelectedTrip(null)}
+        />
+      </main>
     </>
   );
 }

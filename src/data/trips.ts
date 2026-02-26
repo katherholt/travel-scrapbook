@@ -6,7 +6,7 @@ export const trips: Trip[] = [
     title: "Portland, Maine",
     region: "New England",
     country: "USA",
-    status: "past",
+    status: "visited",
     signatureColor: "#FF8C00", // Orange
     coverImage:
       "https://images.unsplash.com/photo-1582488719899-a2a54cb479fe?w=800&h=1000&fit=crop",
@@ -28,7 +28,7 @@ export const trips: Trip[] = [
     title: "Mexico City",
     region: "Central Mexico",
     country: "Mexico",
-    status: "upcoming",
+    status: "visited",
     signatureColor: "#007B82", // Turquoise
     coverImage:
       "https://images.unsplash.com/photo-1518659526054-190340b32735?w=800&h=1000&fit=crop",

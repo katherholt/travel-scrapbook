@@ -20,7 +20,7 @@ interface MapViewProps {
 
 function markerColor(status: Trip["status"]): string {
   switch (status) {
-    case "past":
+    case "visited":
       return "#d4763a";
     case "upcoming":
       return "#2a7d5f";

@@ -1,4 +1,4 @@
-export type TripStatus = "past" | "upcoming" | "future";
+export type TripStatus = "visited" | "upcoming" | "future";
 
 export interface Trip {
   slug: string;

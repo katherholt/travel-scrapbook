@@ -249,7 +249,7 @@ export default function SplitFlapLoader({
               border: "1px solid rgba(0,0,0,0.07)",
               borderRadius: 10,
               padding: "clamp(14px, 3.2vw, 24px) clamp(16px, 3.8vw, 28px) clamp(12px, 2.4vw, 18px)",
-              maxWidth: "90vw",
+              width: "min(90vw, 580px)",
               overflow: "hidden",
               display: "flex",
               flexDirection: "column",

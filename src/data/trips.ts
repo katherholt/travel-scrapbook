@@ -28,7 +28,7 @@ export const trips: Trip[] = [
     title: "Mexico City",
     region: "Central Mexico",
     country: "Mexico",
-    status: "upcoming",
+    status: "past",
     signatureColor: "#007B82", // Turquoise
     coverImage:
       "https://images.unsplash.com/photo-1518659526054-190340b32735?w=800&h=1000&fit=crop",

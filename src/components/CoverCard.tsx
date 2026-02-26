@@ -13,7 +13,7 @@ interface CoverCardProps {
 
 function getFilterStyle(status: Trip["status"]): React.CSSProperties {
   switch (status) {
-    case "past":
+    case "visited":
       return { filter: "none", opacity: 1 };
     case "upcoming":
       return { filter: "saturate(0.3) sepia(0.4)", opacity: 0.8 };
@@ -24,7 +24,7 @@ function getFilterStyle(status: Trip["status"]): React.CSSProperties {
 
 function getHoverProps(status: Trip["status"]) {
   switch (status) {
-    case "past":
+    case "visited":
       return {
         y: -4,
         rotate: -0.5,

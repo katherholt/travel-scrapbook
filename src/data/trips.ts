@@ -10,7 +10,7 @@ export const trips: Trip[] = [
     signatureColor: "#FF8C00", // Orange
     coverImage:
       "https://images.unsplash.com/photo-1582488719899-a2a54cb479fe?w=800&h=1000&fit=crop",
-    postcardImage: "/postcards/portland.svg",
+    postcardImage: "/postcards/portland.png",
     tintStrength: 0.45,
     coordinates: { lat: 43.6591, lng: -70.2568 },
     contentPath: "/content/trips/portland-maine.md",
@@ -32,7 +32,7 @@ export const trips: Trip[] = [
     signatureColor: "#007B82", // Turquoise
     coverImage:
       "https://images.unsplash.com/photo-1518659526054-190340b32735?w=800&h=1000&fit=crop",
-    postcardImage: "/postcards/cmdx.svg",
+    postcardImage: "/postcards/cmdx.png",
     tintStrength: 0.4,
     coordinates: { lat: 19.4326, lng: -99.1332 },
     contentPath: "/content/trips/mexico-city.md",
@@ -54,7 +54,7 @@ export const trips: Trip[] = [
     signatureColor: "#FFC20E", // Mangue
     coverImage:
       "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=800&h=1000&fit=crop",
-    postcardImage: "/postcards/hk.svg",
+    postcardImage: "/postcards/hk.png",
     tintStrength: 0.45,
     coordinates: { lat: 22.3193, lng: 114.1694 },
     contentPath: "/content/trips/hong-kong.md",
@@ -70,7 +70,7 @@ export const trips: Trip[] = [
     signatureColor: "#78C5F8", // Ciel
     coverImage:
       "https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=800&h=1000&fit=crop",
-    postcardImage: "/postcards/japan.svg",
+    postcardImage: "/postcards/japan.png",
     tintStrength: 0.4,
     coordinates: { lat: 43.0642, lng: 141.3469 },
     contentPath: "/content/trips/japan-ski.md",
@@ -86,7 +86,7 @@ export const trips: Trip[] = [
     signatureColor: "#CD9A62", // Gingembre
     coverImage:
       "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=800&h=1000&fit=crop",
-    postcardImage: "/postcards/italy.svg",
+    postcardImage: "/postcards/italy.png",
     tintStrength: 0.4,
     coordinates: { lat: 43.7711, lng: 11.2486 },
     contentPath: "/content/trips/tuscany.md",
@@ -102,7 +102,7 @@ export const trips: Trip[] = [
     signatureColor: "#003C38", // Forêt
     coverImage:
       "https://images.unsplash.com/photo-1469521669194-babb45599def?w=800&h=1000&fit=crop",
-    postcardImage: "/postcards/nz.svg",
+    postcardImage: "/postcards/nz.png",
     tintStrength: 0.5,
     coordinates: { lat: -44.0, lng: 170.5 },
     contentPath: "/content/trips/new-zealand.md",

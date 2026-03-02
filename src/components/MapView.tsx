@@ -35,18 +35,25 @@ function markerSize(trip: Trip): number {
 }
 
 // ── Postcard overlay shown when a map marker is clicked ──
+// Deterministic slight rotations matching grid view
+const OVERLAY_ROTATIONS = [-2.5, 1.8, -1.2, 2.3, -1.8, 1.1];
+
 function PostcardOverlay({
   trip,
   content,
   onClose,
+  rotationIndex,
 }: {
   trip: Trip;
   content: string;
   onClose: () => void;
+  rotationIndex: number;
 }) {
   const [flipped, setFlipped] = useState(false);
   const highlights = content ? parseHighlights(content) : null;
   const isVisited = trip.status === "visited";
+  const canFlip = isVisited && !!highlights;
+  const rotation = OVERLAY_ROTATIONS[rotationIndex % OVERLAY_ROTATIONS.length];
 
   return (
     <motion.div
@@ -76,18 +83,22 @@ function PostcardOverlay({
           className="relative h-full w-full"
           style={{
             transformStyle: "preserve-3d",
-            cursor: isVisited && highlights ? "pointer" : "default",
+            cursor: canFlip ? "pointer" : "default",
           }}
-          animate={{ rotateY: flipped ? 180 : 0 }}
+          animate={{
+            rotateY: flipped ? 180 : 0,
+            rotate: flipped ? 0 : rotation,
+          }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+          whileHover={canFlip ? { y: -6, scale: 1.02 } : {}}
           onClick={(e) => {
             e.stopPropagation();
-            if (isVisited && highlights) setFlipped((f) => !f);
+            if (canFlip) setFlipped((f) => !f);
           }}
         >
           {/* ── FRONT FACE ── */}
           <div
-            className="absolute inset-0 overflow-hidden rounded-sm shadow-2xl"
+            className="absolute inset-0 overflow-hidden"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
@@ -111,7 +122,7 @@ function PostcardOverlay({
           {/* ── BACK FACE ── */}
           {highlights && (
             <div
-              className="absolute inset-0 overflow-hidden rounded-sm shadow-2xl"
+              className="absolute inset-0 overflow-hidden"
               style={{
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
@@ -408,6 +419,7 @@ export default function MapView({ trips, tripContents }: MapViewProps) {
             trip={selectedTrip}
             content={tripContents[selectedTrip.slug] || ""}
             onClose={() => setSelectedTrip(null)}
+            rotationIndex={trips.indexOf(selectedTrip)}
           />
         )}
       </AnimatePresence>

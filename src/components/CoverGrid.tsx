@@ -20,7 +20,7 @@ export default function CoverGrid({ trips, tripContents }: CoverGridProps) {
           <h2
             className="mb-6 text-[10px] font-semibold uppercase tracking-[0.2em] sm:text-xs"
             style={{
-              fontFamily: "var(--font-special-elite)",
+              fontFamily: "var(--font-sans)",
               color: "rgba(80,60,40,0.4)",
             }}
           >
@@ -45,7 +45,7 @@ export default function CoverGrid({ trips, tripContents }: CoverGridProps) {
           <h2
             className="mb-6 text-[10px] font-semibold uppercase tracking-[0.2em] sm:text-xs"
             style={{
-              fontFamily: "var(--font-special-elite)",
+              fontFamily: "var(--font-sans)",
               color: "rgba(80,60,40,0.4)",
             }}
           >

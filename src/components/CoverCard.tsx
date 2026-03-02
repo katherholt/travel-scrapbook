@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Trip } from "@/lib/types";
+import { parseHighlights } from "@/lib/parseHighlights";
 
 interface CoverCardProps {
   trip: Trip;
@@ -13,49 +14,6 @@ interface CoverCardProps {
 
 // Deterministic slight rotations for organic scattered feel
 const ROTATIONS = [-2.5, 1.8, -1.2, 2.3, -1.8, 1.1];
-
-// ── Content parser ──────────────────────────────────────
-function parseHighlights(markdown: string) {
-  const sections = markdown.split(/<!-- PAGE: ([\w-]+) -->/);
-
-  function getSection(name: string) {
-    const idx = sections.indexOf(name);
-    return idx >= 0 ? sections[idx + 1] : "";
-  }
-
-  // About: first real paragraph (skip headings, frontmatter, bold-only lines)
-  const aboutRaw = getSection("about");
-  const aboutText =
-    aboutRaw
-      .split("\n")
-      .map((l) => l.trim())
-      .find(
-        (l) =>
-          l.length > 40 &&
-          !l.startsWith("#") &&
-          !l.startsWith("---") &&
-          !l.startsWith("**"),
-      ) || "";
-
-  // Dishes: restaurant names from ### headings
-  const dishes = [...getSection("dishes").matchAll(/### \d+\.\s+(.+)/g)].map(
-    (m) => m[1],
-  );
-
-  // Sights
-  const sights = [
-    ...getSection("local-lore").matchAll(/### \d+\.\s+(.+)/g),
-  ].map((m) => m[1]);
-
-  // Phrases
-  const phrases = [
-    ...getSection("phrases").matchAll(/\*\*"(.+?)"\*\*\s*—\s*(.+)/g),
-  ]
-    .slice(0, 3)
-    .map((m) => ({ phrase: m[1], meaning: m[2] }));
-
-  return { aboutText, dishes, sights, phrases };
-}
 
 // ── Grain overlay (reusable data-uri) ───────────────────
 const GRAIN_BG =
@@ -93,11 +51,10 @@ export default function CoverCard({ trip, index, content }: CoverCardProps) {
       >
         {/* ── FRONT FACE ── */}
         <div
-          className="absolute inset-0 overflow-hidden rounded-lg"
+          className="absolute inset-0 overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
-            boxShadow: "3px 5px 20px rgba(80,60,40,0.22)",
           }}
         >
           <Image
@@ -113,49 +70,24 @@ export default function CoverCard({ trip, index, content }: CoverCardProps) {
               opacity: isVisited ? 1 : 0.7,
             }}
           />
-
-          {/* Gradient + destination name */}
-          <div
-            className="absolute bottom-0 left-0 right-0 px-4 pb-3 pt-10"
-            style={{
-              background: "linear-gradient(transparent, rgba(0,0,0,0.55))",
-            }}
-          >
-            <p
-              className="text-sm font-medium text-white sm:text-base"
-              style={{
-                fontFamily: "var(--font-special-elite)",
-                textShadow: "0 1px 4px rgba(0,0,0,0.5)",
-              }}
-            >
-              {trip.title}
-            </p>
-          </div>
-
-          {/* Grain */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{ opacity: 0.04, backgroundImage: GRAIN_BG }}
-          />
         </div>
 
         {/* ── BACK FACE ── */}
         {highlights && (
           <div
-            className="absolute inset-0 overflow-hidden rounded-lg"
+            className="absolute inset-0 overflow-hidden"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
               background: "#f5f0e4",
-              boxShadow: "3px 5px 20px rgba(80,60,40,0.22)",
               fontFamily: "var(--font-special-elite)",
             }}
           >
             <div className="flex h-full">
               {/* ── Left: message ── */}
               <div
-                className="flex flex-1 flex-col overflow-hidden p-4 pr-3 sm:p-5 sm:pr-4"
+                className="flex flex-1 flex-col overflow-y-auto p-4 pr-3 sm:p-5 sm:pr-4"
                 style={{ borderRight: "1.5px solid rgba(80,60,40,0.18)" }}
               >
                 <p
@@ -169,10 +101,7 @@ export default function CoverCard({ trip, index, content }: CoverCardProps) {
                   className="mb-3 text-[9px] leading-relaxed sm:text-[11px]"
                   style={{ color: "rgba(40,30,20,0.72)" }}
                 >
-                  {highlights.aboutText.length > 160
-                    ? highlights.aboutText.slice(0, 160).replace(/\s\S*$/, "") +
-                      "\u2026"
-                    : highlights.aboutText}
+                  {highlights.aboutText}
                 </p>
 
                 {highlights.dishes.length > 0 && (

@@ -19,7 +19,7 @@ export default function ViewToggle({ view, onToggle }: ViewToggleProps) {
       <button
         className="relative rounded-[4px] px-4 py-1.5 text-xs uppercase transition-colors"
         style={{
-          fontFamily: "var(--font-special-elite)",
+          fontFamily: "var(--font-sans)",
           letterSpacing: "0.15em",
         }}
         onClick={() => onToggle("grid")}
@@ -45,7 +45,7 @@ export default function ViewToggle({ view, onToggle }: ViewToggleProps) {
       <button
         className="relative rounded-[4px] px-4 py-1.5 text-xs uppercase transition-colors"
         style={{
-          fontFamily: "var(--font-special-elite)",
+          fontFamily: "var(--font-sans)",
           letterSpacing: "0.15em",
         }}
         onClick={() => onToggle("map")}

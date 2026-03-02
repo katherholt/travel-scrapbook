@@ -19,10 +19,6 @@ export default function HomeClient({ trips, tripContents }: HomeClientProps) {
   const [view, setView] = useState<"grid" | "map">("grid");
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
 
-  const handleMapTripClick = (trip: Trip) => {
-    if (!trip.locked) setSelectedTrip(trip);
-  };
-
   return (
     <>
       {loading && <SplitFlapLoader onComplete={() => setLoading(false)} />}
@@ -42,7 +38,7 @@ export default function HomeClient({ trips, tripContents }: HomeClientProps) {
               />
             ) : (
               <div key="map" className="hidden lg:block">
-                <MapView trips={trips} onTripClick={handleMapTripClick} />
+                <MapView trips={trips} tripContents={tripContents} />
               </div>
             )}
           </AnimatePresence>

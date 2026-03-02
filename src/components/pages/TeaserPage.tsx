@@ -24,7 +24,7 @@ export default function TeaserPage({
           className="inline-block h-2 w-2 rounded-full animate-pulse"
           style={{ backgroundColor: trip.signatureColor }}
         />
-        <span className="font-mono text-xs text-gris uppercase tracking-wider">
+        <span className="font-sans text-xs text-gris uppercase tracking-wider">
           More adventures ahead
         </span>
       </div>

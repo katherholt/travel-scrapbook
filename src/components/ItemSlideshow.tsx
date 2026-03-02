@@ -188,7 +188,7 @@ export default function ItemSlideshow({
               className="h-1 w-8 rounded-full"
               style={{ backgroundColor: signatureColor }}
             />
-            <h2 className="font-serif text-xl font-bold">{heading}</h2>
+            <h2 className="font-sans text-xl font-bold">{heading}</h2>
             {headerExtra}
           </div>
           {/* Dots */}
@@ -219,7 +219,7 @@ export default function ItemSlideshow({
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
           >
-            <h3 className="mb-2 font-serif text-lg font-bold">{item.title}</h3>
+            <h3 className="mb-2 font-sans text-lg font-bold">{item.title}</h3>
             <p className="text-sm leading-relaxed text-noir/60">
               {item.description}
             </p>

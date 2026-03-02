@@ -18,58 +18,14 @@ interface MapViewProps {
   onTripClick: (trip: Trip) => void;
 }
 
-function markerColor(status: Trip["status"]): string {
-  switch (status) {
-    case "visited":
-      return "#d4763a";
-    case "upcoming":
-      return "#2a7d5f";
-    case "future":
-      return "#b8a88a";
-  }
+function getMarkerColor(trip: Trip): string {
+  if (trip.status === "visited") return trip.signatureColor;
+  return "#f0ebe0";
 }
 
 function markerSize(trip: Trip): number {
   if (trip.locked) return 6;
   return 8;
-}
-
-function MapLegend() {
-  const items = [
-    { color: "#d4763a", label: "Past" },
-    { color: "#2a7d5f", label: "Upcoming" },
-    { color: "#b8a88a", label: "Future" },
-  ];
-
-  return (
-    <div
-      className="absolute bottom-4 right-4 flex flex-col gap-1.5 rounded-lg px-3 py-2"
-      style={{
-        backgroundColor: "rgba(237,231,217,0.9)",
-        border: "1px solid rgba(150,130,100,0.3)",
-        backdropFilter: "blur(4px)",
-      }}
-    >
-      {items.map(({ color, label }) => (
-        <div key={label} className="flex items-center gap-2">
-          <div
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: color }}
-          />
-          <span
-            className="text-[10px] uppercase"
-            style={{
-              fontFamily: "var(--font-special-elite)",
-              letterSpacing: "1.5px",
-              color: "rgba(80,60,40,0.6)",
-            }}
-          >
-            {label}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 export default function MapView({ trips, onTripClick }: MapViewProps) {
@@ -90,6 +46,15 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
         height={450}
         style={{ width: "100%", height: "auto" }}
       >
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
         <ZoomableGroup>
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
@@ -110,41 +75,43 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
             }
           </Geographies>
 
-          {trips.map((trip) => (
-            <Marker
-              key={trip.slug}
-              coordinates={[trip.coordinates.lng, trip.coordinates.lat]}
-              onMouseEnter={() => setHoveredSlug(trip.slug)}
-              onMouseLeave={() => setHoveredSlug(null)}
-              onClick={() => {
-                if (!trip.locked) onTripClick(trip);
-              }}
-            >
-              <circle
-                r={markerSize(trip)}
-                fill={markerColor(trip.status)}
-                stroke="#ede7d9"
-                strokeWidth={2}
-                opacity={trip.locked ? 0.5 : 1}
-                style={{ cursor: trip.locked ? "default" : "pointer" }}
-              />
-              {trip.locked && (
+          {trips.map((trip) => {
+            const isFuture = trip.status !== "visited";
+            const color = getMarkerColor(trip);
+            const size = markerSize(trip);
+
+            return (
+              <Marker
+                key={trip.slug}
+                coordinates={[trip.coordinates.lng, trip.coordinates.lat]}
+                onMouseEnter={() => setHoveredSlug(trip.slug)}
+                onMouseLeave={() => setHoveredSlug(null)}
+                onClick={() => {
+                  if (!trip.locked) onTripClick(trip);
+                }}
+              >
+                {isFuture && (
+                  <circle
+                    r={size + 4}
+                    fill={color}
+                    opacity={0.25}
+                    filter="url(#glow)"
+                  />
+                )}
                 <circle
-                  r={markerSize(trip)}
-                  fill="none"
-                  stroke={markerColor(trip.status)}
-                  strokeWidth={1}
-                  strokeDasharray="2,2"
-                  opacity={0.6}
+                  r={size}
+                  fill={color}
+                  stroke={isFuture ? "rgba(255,255,255,0.5)" : "#ede7d9"}
+                  strokeWidth={2}
+                  opacity={trip.locked ? 0.7 : 1}
+                  style={{ cursor: trip.locked ? "default" : "pointer" }}
+                  filter={isFuture ? "url(#glow)" : undefined}
                 />
-              )}
-            </Marker>
-          ))}
+              </Marker>
+            );
+          })}
         </ZoomableGroup>
       </ComposableMap>
-
-      {/* Legend */}
-      <MapLegend />
 
       {/* Tooltip */}
       <AnimatePresence>
@@ -166,11 +133,11 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                 <div className="flex items-center gap-2">
                   <div
                     className="h-2.5 w-2.5 rounded-full"
-                    style={{ backgroundColor: markerColor(trip.status) }}
+                    style={{ backgroundColor: getMarkerColor(trip) }}
                   />
                   <span
                     className="text-sm font-bold"
-                    style={{ fontFamily: "var(--font-special-elite)" }}
+                    style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {trip.title}
                   </span>
@@ -192,7 +159,7 @@ export default function MapView({ trips, onTripClick }: MapViewProps) {
                     <span
                       className="text-[10px] uppercase"
                       style={{
-                        fontFamily: "var(--font-special-elite)",
+                        fontFamily: "var(--font-sans)",
                         letterSpacing: "1px",
                         color: "rgba(80,60,40,0.5)",
                       }}

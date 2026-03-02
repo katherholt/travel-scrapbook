@@ -25,7 +25,7 @@ export default function LockOverlay({ title }: { title: string }) {
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
       </svg>
-      <span className="font-serif text-sm font-bold text-noir/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <span className="font-sans text-sm font-bold text-noir/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         {title}
       </span>
     </motion.div>
